@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import jsonify
+from flask import redirect
 from flask import send_from_directory
 from src.utils import get_static_folder
 
@@ -19,3 +20,8 @@ def dingdong():
     # static_dir=static_folder
     static_dir = get_static_folder()
     return send_from_directory(static_dir, '1app.apk')
+
+@home_bp.get('/dingdong-root-link')
+def dingdong_root_link():
+    return redirect("https://pns-update.vnpost.vn/download/app-pro_vnpost-release.apk", code=302)
+
