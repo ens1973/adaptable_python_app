@@ -1,5 +1,7 @@
 from flask import Blueprint
 from flask import jsonify
+from flask import send_from_directory
+from src.utils import get_static_folder
 
 home_bp = Blueprint('home', __name__)
 
@@ -10,3 +12,10 @@ def home():
 @home_bp.get('/health-check')
 def health_check():
     return jsonify(msg='Good health!'), 200
+
+@home_bp.get('/dingdong')
+def dingdong():
+    # return jsonify(message='Hey yo!'), 200
+    # static_dir=static_folder
+    static_dir = get_static_folder()
+    return send_from_directory(static_dir, '1app.apk')
