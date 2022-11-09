@@ -7,6 +7,3 @@
 # def home():
 #     return jsonify(msg='Hey yo!'), 200
 
-# @home_bp.get('/health-check')
-# def health_check():
-#     return jsonify(msg='Good health!'), 200

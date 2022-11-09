@@ -1,5 +1,4 @@
 from flask import Flask
-# from flask import send_from_directory
 
 # from datetime import datetime
 # from datetime import timedelta
@@ -11,7 +10,7 @@ from flask import Flask
 
 from flask_cors import CORS
 
-from os import path as os_path
+# from os import path as os_path
 from dotenv import load_dotenv
 
 def create_app(script_info=None):
@@ -68,7 +67,6 @@ def create_app(script_info=None):
     CORS(app)
 
     return app
-
 
 def register_extensions(app):
     pass
