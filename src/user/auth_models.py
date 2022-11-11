@@ -1,15 +1,15 @@
-# import mongoengine as me
+import mongoengine as me
 from src.extensions import jwt
-from src.extensions import db
-from src.db import Document
+# from src.extensions import db
+# from src.db import Document
 
 
 
 
-class TokenBlocklist(Document):
-    jti = db.StringField(max_length=36, nullable=False)
-    type = db.StringField(max_length=16, nullable=False)
-    created_at = db.DateTimeField(nullable=False)
+class TokenBlocklist(me.Document):
+    jti = me.StringField(max_length=36, nullable=False)
+    type = me.StringField(max_length=16, nullable=False)
+    created_at = me.DateTimeField(nullable=False)
 
 
 @jwt.token_in_blocklist_loader

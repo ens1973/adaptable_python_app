@@ -13,17 +13,18 @@ api.add_namespace(health_ns)
 from .book import api as book_ns
 api.add_namespace(book_ns)
 
+from .user import api as user_ns
+api.add_namespace(user_ns)
+
+from .user.auth import api as auth_ns
+api.add_namespace(auth_ns)
+
 # from .author import api as author_ns
 # api.add_namespace(author_ns)
 
 # # from .articles import api as article_ns
 # # api.add_namespace(article_ns)
 
-# from .user import api as user_ns
-# api.add_namespace(user_ns)
-
-# from .user.auth import api as auth_ns
-# api.add_namespace(auth_ns)
 
 # from .product import api as product_ns
 # api.add_namespace(product_ns)

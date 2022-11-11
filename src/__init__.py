@@ -60,9 +60,9 @@ def create_app(script_info=None):
     from .health.check import check_bp
     app.register_blueprint(check_bp, url_prefix="/check")
 
-    # @app.route("/")
-    # def hello_world():
-    #     return "<p>Hello, World!</p>"
+    @app.route("/")
+    def hello_world():
+        return "<p>hi there!</p>"
 
     CORS(app)
 

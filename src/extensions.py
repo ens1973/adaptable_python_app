@@ -28,6 +28,6 @@ def db_init(env):
 # from flask_mongoengine import MongoEngine
 # db = MongoEngine()
 
-# from flask_jwt_extended import JWTManager
-# jwt = JWTManager()
+from flask_jwt_extended import JWTManager
+jwt = JWTManager()
 

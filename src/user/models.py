@@ -1,17 +1,17 @@
-# import mongoengine as me
-from src.extensions import db
-from src.db import Document
+import mongoengine as me
+# from src.extensions import db
+# from src.db import Document
 from src.rsa import decode_data
 from src.rsa import encode_data
 
-class User(Document):
-    email = db.StringField(max_length=255, unique=True)
-    username = db.StringField(max_length=255, unique=True)
-    firstname = db.StringField(max_length=255)
-    lastname = db.StringField(max_length=255)
-    password = db.StringField(max_length=255)
-    active = db.BooleanField(default=True)
-    confirmed_at = db.DateTimeField()
+class User(me.Document):
+    email = me.StringField(max_length=255, unique=True)
+    username = me.StringField(max_length=255, unique=True)
+    firstname = me.StringField(max_length=255)
+    lastname = me.StringField(max_length=255)
+    password = me.StringField(max_length=255)
+    active = me.BooleanField(default=True)
+    confirmed_at = me.DateTimeField()
 
     def __repr__(self):
         return f'<User (username={self.username})>'
