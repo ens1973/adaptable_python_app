@@ -4,6 +4,7 @@ docker-compose.yml
 Dockerfile
 Dockerfile.prod
 backend/
+mongo/
 
 __pycache__/
 src/__pycache__/

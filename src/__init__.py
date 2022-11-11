@@ -69,7 +69,9 @@ def create_app(script_info=None):
     return app
 
 def register_extensions(app):
-    pass
+    # pass
+    from .extensions import db_init
+    db_init(app.config.get('ENV'))
     # from .extensions import db
     # db.init_app(app)
     # from .extensions import jwt
