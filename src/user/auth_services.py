@@ -1,7 +1,9 @@
 from flask import jsonify
-from .models import User
+from .models import User as Item
 from .schemas import user_schema as schema
 from .schemas import user_schema_many as schema_many
+from .schemas import security_user_schema as security_schema
+from .schemas import security_user_schema_many as security_schema_many
 
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import create_refresh_token
@@ -86,25 +88,28 @@ def registration(data):
 def login(data):
     username = data.get('username')
     password = data.get('password')
-    current_user = User.objects(username__exact=username).first()
+    current_user = Item.objects(username__exact=username).first()
     if not current_user:
         return {'message': f"User {username} doesn't exist"}
 
-    if User().verify_password(password, current_user.password):
-        access_token = create_access_token(identity=username)
-        refresh_token = create_refresh_token(identity=username)
+    dump_current_user = schema.dump(current_user)
+    print(dump_current_user)
+    if Item().verify_password(password, current_user.password):
+        access_token = create_access_token(identity=schema.load(dump_current_user))
+        refresh_token = create_refresh_token(identity=schema.load(dump_current_user))
 
         message = f'Logged in as {current_user.username}'
 
         # set_access_cookies(jsonify(message=message), access_token)
         # set_refresh_cookies(jsonify(message=message), refresh_token)
-        print(schema.dump(current_user))
+        dump_security_current_user = security_schema.dump(current_user)
+        # dump_current_user['password'] = ''
         return {
             'msg': message,
             'access_token_bearer': f"Bearer {access_token}",
             'access_token': access_token,
             'refresh_token': refresh_token,
-            'user': schema.dump(current_user)
+            'user': dump_security_current_user
         }, 200
 
     else:

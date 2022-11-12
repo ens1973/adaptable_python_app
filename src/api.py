@@ -1,10 +1,24 @@
 from flask import Blueprint
 from flask_restx import Api
 
-authorizations = {"Bearer": {"type": "apiKey", "in": "header", "name": "Authorization"}}
+from os import getenv
+JWT_HEADER_NAME = getenv('JWT_HEADER_NAME')
+JWT_HEADER_TYPE = getenv('JWT_HEADER_TYPE')
+JWT_QUERY_STRING_VALUE_PREFIX = getenv('JWT_QUERY_STRING_VALUE_PREFIX')
+
+authorizations = {
+    f"{JWT_QUERY_STRING_VALUE_PREFIX} ": 
+        {"type": JWT_HEADER_TYPE, "in": "header", "name": JWT_HEADER_NAME}
+    }
 
 api_bp = Blueprint("api", __name__)
-api = Api(api_bp, title="REST API", description="A REST API backend", authorizations=authorizations, security='Bearer')
+api = Api(
+    api_bp, 
+    title="REST API", 
+    description="A REST API backend", 
+    authorizations=authorizations, 
+    security=f"{JWT_QUERY_STRING_VALUE_PREFIX} "
+    )
 
 
 from .health import api as health_ns

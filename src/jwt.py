@@ -1,5 +1,8 @@
 from flask import jsonify
-from .user import User
+from .user.models import User
+
+from flask_jwt_extended import get_jwt
+from flask_jwt_extended import verify_jwt_in_request
 
 from .extensions import jwt
 # from flask_jwt_extended import create_access_token
@@ -7,18 +10,24 @@ from .extensions import jwt
 # from flask_jwt_extended import set_access_cookies
 # from flask_jwt_extended import jwt_refresh_token_required
 
+from functools import wraps
 
-# user = User()
+from json import dumps
+from json import loads
 
-@jwt.user_loader_callback_loader
-def user_loader_callback(identity):
-    if not User.objects(username__exact=identity):
-        return None
-    return User.objects(username__exact=identity).get()
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    print('user_lookup_loader')
+    identity = jwt_data["sub"]
+    user = User.objects(id__exact=identity).first()
+    if user is not None:
+        print(user)
+        return user
+    return None
 
-
-@jwt.user_loader_error_loader
+@jwt.user_lookup_error_loader
 def custom_user_loader_error(identity):
+    print('user_lookup_error_loader')
     return jsonify(msg=f"User {identity} not found"), 404
 
 # @jwt_refresh_token_required
@@ -47,3 +56,54 @@ def custom_user_loader_error(identity):
 #     token = TokenBlocklist.objects(jti=jti).scalar()
 
 #     return token is not None
+
+
+
+
+def admin_required():
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            claims = get_jwt()
+            if claims.get("is_administrator"):
+                return fn(*args, **kwargs)
+            else:
+                return jsonify(msg=msg), 403
+
+        return decorator
+
+    return wrapper
+
+def mod_required():
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            claims = get_jwt()
+            if claims.get("is_moderator"):
+                return fn(*args, **kwargs)
+            else:
+                return jsonify(msg=msg), 403
+        return decorator
+    return wrapper
+
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    print('user_identity_loader')
+    print(user)
+    return user.id
+
+@jwt.additional_claims_loader
+def add_claims_to_access_token(identity):
+    print('additional_claims_loader')
+    print(identity)
+    # id = loads(dumps(identity, default=str))
+    # print(type(id))
+    return {
+        "is_administrator": identity.is_administrator,
+        "is_moderator": identity.is_moderator,
+        "is_baned": identity.is_baned,
+        "is_active": identity.is_active,
+    }

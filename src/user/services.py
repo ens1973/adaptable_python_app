@@ -2,6 +2,8 @@ from flask import jsonify
 from .models import User as Item
 from .schemas import user_schema as schema
 from .schemas import user_schema_many as schema_many
+from .schemas import security_user_schema as security_schema
+from .schemas import security_user_schema_many as security_schema_many
 
 model_name = "User"
 
@@ -14,14 +16,14 @@ def create_item(data):
     for item in items:
         item.password = Item().hash_password(item.password)
     Item.objects.insert(items)
-    return schema_many.dump(items), 201
+    return security_schema_many.dump(items), 201
 
 
 def get_all_items():
     """Deserialize and return all items in database"""
-    return schema_many.dump(Item.objects.all()), 200
-    # print(Item.objects.all())
+    # print(security_schema_many.dump(Item.objects.all()))
     # return "hi", 200
+    return security_schema_many.dump(Item.objects.all()), 200
 
 
 def get_item(item_id):
@@ -29,7 +31,7 @@ def get_item(item_id):
     if not (item := Item.objects(id=item_id).first()):
         return {"message": does_not_exist(item_id)}, 404
 
-    return schema.dump(item), 200
+    return security_schema.dump(item), 200
 
 
 def update_item(item_id, data):
@@ -38,7 +40,7 @@ def update_item(item_id, data):
 
     schema.update(item, data)
     item.save()
-    return schema.dump(item), 200
+    return security_schema.dump(item), 200
 
 
 def delete_item(item_id):

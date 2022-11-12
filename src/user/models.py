@@ -5,12 +5,15 @@ from src.rsa import decode_data
 from src.rsa import encode_data
 
 class User(me.Document):
-    email = me.StringField(max_length=255, unique=True)
+    email = me.EmailField(max_length=255, unique=True)
     username = me.StringField(max_length=255, unique=True)
     firstname = me.StringField(max_length=255)
     lastname = me.StringField(max_length=255)
     password = me.StringField(max_length=255)
-    active = me.BooleanField(default=True)
+    is_administrator = me.BooleanField(required=True, default=False)
+    is_moderator = me.BooleanField(required=True, default=False)
+    is_baned = me.BooleanField(required=True, default=False)
+    is_active = me.BooleanField(required=True, default=True)
     confirmed_at = me.DateTimeField()
 
     def __repr__(self):

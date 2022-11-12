@@ -12,14 +12,18 @@ from flask_cors import CORS
 
 # from os import path as os_path
 from dotenv import load_dotenv
+from os import getenv
 
 def create_app(script_info=None):
 
     load_dotenv()
 
     app = Flask(__name__)
-    app.config.from_object("src.config.DevelopmentConfig")
-    # app.config.from_object("src.config.ProductionConfig")
+    current_env = getenv('ENV')
+    if (current_env == 'development'):
+        app.config.from_object("src.config.DevelopmentConfig")
+    else:
+        app.config.from_object("src.config.ProductionConfig")
 
     # app.logger.info(f"Config: {config_name}")
 
@@ -70,11 +74,11 @@ def create_app(script_info=None):
 
 def register_extensions(app):
     # pass
+    from .extensions import jwt
+    jwt.init_app(app)
     from .extensions import db_init
     db_init(app.config.get('ENV'))
     # from .extensions import db
     # db.init_app(app)
-    # from .extensions import jwt
-    # jwt.init_app(app)
     # from .extensions import ma
     # ma.init_app(app)

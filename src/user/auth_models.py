@@ -1,5 +1,6 @@
 import mongoengine as me
 from src.extensions import jwt
+from .models import User
 # from src.extensions import db
 # from src.db import Document
 
@@ -19,6 +20,7 @@ def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
     # print(token)
     # return token is not None
     token = TokenBlocklist.objects(jti=jti).first()
-
-    return token is not None
+    if token is not None:
+        return token
+    return None
 

@@ -13,7 +13,7 @@ from .auth_services import logout
 api = Namespace("auth", description="User auth related operations !")
 
 body_fields = api.model(
-    "User", {
+    "AuthUser", {
         'username': fields.String(required=True, description='Username'),
         'password': fields.String(required=True, description='Password'),
     }

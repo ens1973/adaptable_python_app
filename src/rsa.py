@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 
 def key_generate():
     # generate key
-    key=getenv('URL')
+    key=getenv('JWT_SECRET_KEY')
     key = key.encode()
     f = Fernet(key)
     return f
