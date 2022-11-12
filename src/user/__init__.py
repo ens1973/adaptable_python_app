@@ -4,6 +4,7 @@ from flask_restx import Resource
 from flask_restx import fields
 from flask_jwt_extended import jwt_required
 from src.jwt import admin_required
+from src.jwt import mod_required
 
 from .services import create_item
 from .services import get_all_items

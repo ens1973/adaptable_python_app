@@ -12,23 +12,60 @@ from .extensions import jwt
 
 from functools import wraps
 
-from json import dumps
-from json import loads
 
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
-    print('user_lookup_loader')
     identity = jwt_data["sub"]
     user = User.objects(id__exact=identity).first()
     if user is not None:
-        print(user)
         return user
     return None
 
 @jwt.user_lookup_error_loader
 def custom_user_loader_error(identity):
-    print('user_lookup_error_loader')
     return jsonify(msg=f"User {identity} not found"), 404
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+@jwt.additional_claims_loader
+def add_claims_to_access_token(identity):
+    return {
+        "is_administrator": identity.is_administrator,
+        "is_moderator": identity.is_moderator,
+        # "is_baned": identity.is_baned,
+        # "is_active": identity.is_active,
+    }
+
+def admin_required():
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            claims = get_jwt()
+            if claims.get("is_administrator"):
+                return fn(*args, **kwargs)
+            else:
+                msg='Không đủ quyền truy cập!'
+                return {'msg':msg}, 403
+        return decorator
+    return wrapper
+
+def mod_required():
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            claims = get_jwt()
+            if claims.get("is_moderator") or claims.get("is_administrator"):
+                return fn(*args, **kwargs)
+            else:
+                msg='Không đủ quyền truy cập!'
+                return {'msg':msg}, 403
+        return decorator
+    return wrapper
+
 
 # @jwt_refresh_token_required
 # def refresh_expiring_jwts(response):
@@ -59,51 +96,3 @@ def custom_user_loader_error(identity):
 
 
 
-
-def admin_required():
-    def wrapper(fn):
-        @wraps(fn)
-        def decorator(*args, **kwargs):
-            verify_jwt_in_request()
-            claims = get_jwt()
-            if claims.get("is_administrator"):
-                return fn(*args, **kwargs)
-            else:
-                return jsonify(msg=msg), 403
-
-        return decorator
-
-    return wrapper
-
-def mod_required():
-    def wrapper(fn):
-        @wraps(fn)
-        def decorator(*args, **kwargs):
-            verify_jwt_in_request()
-            claims = get_jwt()
-            if claims.get("is_moderator"):
-                return fn(*args, **kwargs)
-            else:
-                return jsonify(msg=msg), 403
-        return decorator
-    return wrapper
-
-
-@jwt.user_identity_loader
-def user_identity_lookup(user):
-    print('user_identity_loader')
-    print(user)
-    return user.id
-
-@jwt.additional_claims_loader
-def add_claims_to_access_token(identity):
-    print('additional_claims_loader')
-    print(identity)
-    # id = loads(dumps(identity, default=str))
-    # print(type(id))
-    return {
-        "is_administrator": identity.is_administrator,
-        "is_moderator": identity.is_moderator,
-        "is_baned": identity.is_baned,
-        "is_active": identity.is_active,
-    }

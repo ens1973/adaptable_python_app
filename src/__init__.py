@@ -14,6 +14,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from os import getenv
 
+
+
 def create_app(script_info=None):
 
     load_dotenv()
@@ -78,6 +80,8 @@ def register_extensions(app):
     jwt.init_app(app)
     from .extensions import db_init
     db_init(app.config.get('ENV'))
+    from .extensions import CustomEncoder
+    app.json_encoder = CustomEncoder
     # from .extensions import db
     # db.init_app(app)
     # from .extensions import ma
