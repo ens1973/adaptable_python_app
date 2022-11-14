@@ -5,6 +5,7 @@ class Config:
     TESTING = False
     SECRET_KEY = getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    ITEM_PER_PAGE = getenv('ITEM_PER_PAGE')
     # DEFAULT_CONNECTION_NAME = db
     SEND_FILE_MAX_AGE_DEFAULT = 0
     JWT_TOKEN_LOCATION = ["headers", "query_string", "json"]

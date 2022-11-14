@@ -33,6 +33,9 @@ api.add_namespace(user_ns)
 from .user.auth import api as auth_ns
 api.add_namespace(auth_ns)
 
+from .product import api as product_ns
+api.add_namespace(product_ns)
+
 # from .author import api as author_ns
 # api.add_namespace(author_ns)
 
@@ -40,5 +43,3 @@ api.add_namespace(auth_ns)
 # # api.add_namespace(article_ns)
 
 
-# from .product import api as product_ns
-# api.add_namespace(product_ns)
