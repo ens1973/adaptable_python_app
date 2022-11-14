@@ -63,8 +63,8 @@ def create_app(script_info=None):
     from .api import api_bp
     app.register_blueprint(api_bp, url_prefix="/api")
 
-    from .health.check import check_bp
-    app.register_blueprint(check_bp, url_prefix="/check")
+    # from .health.check import check_bp
+    # app.register_blueprint(check_bp, url_prefix="/check")
 
     @app.route("/")
     def hello_world():

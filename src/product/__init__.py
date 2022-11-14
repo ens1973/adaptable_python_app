@@ -14,20 +14,20 @@ from .services import delete_item
 api = Namespace("products", description="Product related operations !")
 
 
-specs_fields = api.model(
-    "Specs", {
+productspecs_fields = api.model(
+    "ProductSpecs", {
         'key': fields.String(description='Specs key'),
         'value': fields.String(description='Specs value'),
     }
 )
 
-body_fields = api.model(
+product_fields = api.model(
     "Product", {
         'name': fields.String(required=True, description='Product name'),
         'price': fields.Float(required=True, description='Price'),
         'short_description': fields.String(description='Short description'),
         'description': fields.String(description='Description'),
-        'specs': fields.List(fields.Nested(specs_fields)),
+        'specs': fields.List(fields.Nested(productspecs_fields)),
     }
 )
 
@@ -38,7 +38,7 @@ class ProductList(Resource):
         """Get a list"""
         return get_all_items()
 
-    @api.doc(body=[body_fields])
+    @api.doc(body=[product_fields])
     @mod_required()
     def post(self):
         """Create new"""
@@ -58,7 +58,7 @@ class Product(Resource):
         """Get by single ID"""
         return get_item(item_id)
 
-    @api.doc(body=body_fields)
+    @api.doc(body=product_fields)
     @mod_required()
     def put(self, item_id):
         """Update by single ID"""

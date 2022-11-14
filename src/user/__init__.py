@@ -8,6 +8,7 @@ from src.jwt import mod_required
 
 from .services import create_item
 from .services import get_all_items
+from .services import get_all_items_from_page
 from .services import get_item
 from .services import update_item
 from .services import delete_item
@@ -41,6 +42,13 @@ class UserList(Resource):
     def post(self):
         """Create new"""
         return create_item(request.get_json())
+
+@api.route('/page/<int:page_number>')
+class UserListWithPage(Resource):
+    @admin_required()
+    def get(self, page_number):
+        """Get a list"""
+        return get_all_items_from_page(page_number)
 
 
 @api.route('/<string:item_id>')

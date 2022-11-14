@@ -48,6 +48,7 @@ def login(data):
         # dump_current_user['password'] = ''
         return {
             'msg': message,
+            'access_token_api': f"apiKey {access_token}",
             'access_token_bearer': f"Bearer {access_token}",
             'access_token': access_token,
             'refresh_token': refresh_token,

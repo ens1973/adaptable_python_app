@@ -7,7 +7,7 @@ JWT_HEADER_TYPE = getenv('JWT_HEADER_TYPE')
 JWT_QUERY_STRING_VALUE_PREFIX = getenv('JWT_QUERY_STRING_VALUE_PREFIX')
 
 authorizations = {
-    f"{JWT_QUERY_STRING_VALUE_PREFIX} ": 
+    f"{JWT_QUERY_STRING_VALUE_PREFIX}": 
         {"type": JWT_HEADER_TYPE, "in": "header", "name": JWT_HEADER_NAME}
     }
 
@@ -17,15 +17,15 @@ api = Api(
     title="REST API", 
     description="A REST API backend", 
     authorizations=authorizations, 
-    security=f"{JWT_QUERY_STRING_VALUE_PREFIX} "
+    security=JWT_QUERY_STRING_VALUE_PREFIX
     )
 
 
 from .health import api as health_ns
 api.add_namespace(health_ns)
 
-from .book import api as book_ns
-api.add_namespace(book_ns)
+# from .book import api as book_ns
+# api.add_namespace(book_ns)
 
 from .user import api as user_ns
 api.add_namespace(user_ns)
