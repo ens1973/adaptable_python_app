@@ -31,12 +31,13 @@ body_fields = api.model(
 
 @api.route('')
 class UserList(Resource):
-    @jwt_required()
+    @admin_required()
     def get(self):
         """Get a list"""
         return get_all_items()
 
-    @api.doc(body=body_fields)
+    @api.doc(body=[body_fields])
+    @mod_required()
     def post(self):
         """Create new"""
         return create_item(request.get_json())
@@ -44,18 +45,18 @@ class UserList(Resource):
 
 @api.route('/<string:item_id>')
 class User(Resource):
-    @admin_required()
+    @mod_required()
     def get(self, item_id):
         """Get by single ID"""
         return get_item(item_id)
 
     @api.doc(body=body_fields)
-    @jwt_required()
+    @mod_required()
     def put(self, item_id):
         """Update by single ID"""
         return update_item(item_id, request.get_json())
 
-    @jwt_required()
+    @mod_required()
     def delete(self, item_id):
         """Delete by single ID"""
         return delete_item(item_id)

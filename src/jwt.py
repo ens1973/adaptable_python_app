@@ -21,9 +21,9 @@ def user_lookup_callback(_jwt_header, jwt_data):
         return user
     return None
 
-@jwt.user_lookup_error_loader
-def custom_user_loader_error(identity):
-    return {'msg':f"User {identity} not found"}, 404
+# @jwt.user_lookup_error_loader
+# def custom_user_loader_error(identity):
+#     return {'msg':f"User {identity} not found"}
 
 @jwt.user_identity_loader
 def user_identity_lookup(user):

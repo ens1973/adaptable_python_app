@@ -4,6 +4,7 @@ from flask_restx import Resource
 from flask_restx import fields
 
 from flask_jwt_extended import jwt_required
+from src.jwt import mod_required
 
 from .auth_services import refresh_token
 from .auth_services import registration
@@ -12,10 +13,18 @@ from .auth_services import logout
 
 api = Namespace("auth", description="User auth related operations !")
 
-body_fields = api.model(
+auth_fields = api.model(
     "AuthUser", {
         'username': fields.String(required=True, description='Username'),
         'password': fields.String(required=True, description='Password'),
+    }
+)
+
+registration_fields = api.model(
+    "RegistrationUser", {
+        'username': fields.String(required=True, description='Username'),
+        'password': fields.String(required=True, description='Password'),
+        'email': fields.String(required=True, description='Email'),
     }
 )
 
@@ -24,21 +33,21 @@ body_fields = api.model(
 @api.route('/registration')
 # @api.doc(False)
 class UserRegistration(Resource):
-    @api.doc(body=body_fields)
+    @api.doc(body=registration_fields)
     def post(self):
         return registration(request.get_json())
 
 
 @api.route('/login')
 class UserLogin(Resource):
-    @api.doc(body=body_fields)
+    @api.doc(body=auth_fields)
     def post(self):
         return login(request.get_json())
 
 
 @api.route('/logout')
 class UserLogout(Resource):
-    @jwt_required()
+    @mod_required()
     def delete(self):
         return logout()
 

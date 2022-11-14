@@ -10,6 +10,7 @@ class User(me.Document):
     firstname = me.StringField(max_length=255)
     lastname = me.StringField(max_length=255)
     password = me.StringField(max_length=255)
+    profile = me.ListField(me.DictField())
     is_administrator = me.BooleanField(required=True, default=False)
     is_moderator = me.BooleanField(required=True, default=False)
     is_baned = me.BooleanField(required=True, default=False)
