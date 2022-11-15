@@ -36,10 +36,13 @@ api.add_namespace(auth_ns)
 from .product import api as product_ns
 api.add_namespace(product_ns)
 
-# from .author import api as author_ns
-# api.add_namespace(author_ns)
+from .order import api as order_ns
+api.add_namespace(order_ns)
 
-# # from .articles import api as article_ns
-# # api.add_namespace(article_ns)
+from .discount import api as discount_ns
+api.add_namespace(discount_ns)
+
+from .telegram_bot import api as telegram_bot_ns
+api.add_namespace(telegram_bot_ns)
 
 

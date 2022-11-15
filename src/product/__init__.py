@@ -11,7 +11,7 @@ from .services import get_item
 from .services import update_item
 from .services import delete_item
 
-api = Namespace("products", description="Product related operations !")
+api = Namespace("product", description="Product related operations !")
 
 
 productspecs_fields = api.model(
@@ -24,6 +24,7 @@ productspecs_fields = api.model(
 product_fields = api.model(
     "Product", {
         'name': fields.String(required=True, description='Product name'),
+        'sku': fields.String(description='Product SKU'),
         'price': fields.Float(required=True, description='Price'),
         'short_description': fields.String(description='Short description'),
         'description': fields.String(description='Description'),
