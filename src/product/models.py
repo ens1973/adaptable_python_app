@@ -12,6 +12,16 @@ class Product(me.Document):
     def __repr__(self):
         return f'<Product (name={self.name})>'
 
+# {
+#     "name": "Sản phẩm 1",
+#     "price": 300000,
+#     "category": "shop",
+#     "short_description": "Nội dung ngắn của sản phẩm 1",
+#     "description": "Nội dung chi tiết của sản phẩm 1, Nội dung chi tiết của sản phẩm 1, Nội dung chi tiết của sản phẩm 1",
+#     "specs": [
+#         {"key": "dai","value": "30"}, {"key": "rong","value": "30"}, {"key": "cao","value": "30"}, {"key": "khoiluong","value": "30"}
+#     ]
+# }
 
 # [
 #   {
