@@ -1,8 +1,5 @@
 .env
-.dockerignore
 docker-compose.yml
-Dockerfile
-Dockerfile.prod
 frontend/
 backend/
 mongo/

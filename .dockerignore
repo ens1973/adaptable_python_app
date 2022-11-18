@@ -1,0 +1,15 @@
+mongo
+mongo/
+backend
+backend/
+frontend
+frontend/
+node_modules
+node_modules/
+npm-debug.log
+env/
+venv/
+ENV/
+*/env/
+*/venv/
+*/ENV/
