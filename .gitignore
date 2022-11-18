@@ -1,8 +1,11 @@
 .env
 docker-compose.yml
+frontend
 frontend/
 backend/
 mongo/
+
+Dockerfile.prod
 
 __pycache__/
 src/__pycache__/
