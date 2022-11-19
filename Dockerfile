@@ -3,12 +3,12 @@ ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 ENV PYTHONUNBUFFERED 1
 EXPOSE 5000
 
-RUN mkdir /code
-WORKDIR /code
-COPY requirements.txt /code/
+RUN mkdir /backend
+WORKDIR /backend
+COPY requirements.txt /backend/
 RUN apk add gcc musl-dev libffi-dev openssl-dev build-base
 RUN pip install -r requirements.txt
-COPY . /code/
+COPY . /backend/
 
 # CMD flask run
 CMD python main.py

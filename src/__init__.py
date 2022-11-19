@@ -61,7 +61,7 @@ def create_app(script_info=None):
     register_extensions(app)
         
     from .api import api_bp
-    app.register_blueprint(api_bp, url_prefix="/api")
+    app.register_blueprint(api_bp, url_prefix="/v1/api")
 
     # from .health.check import check_bp
     # app.register_blueprint(check_bp, url_prefix="/check")
