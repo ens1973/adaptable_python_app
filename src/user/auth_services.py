@@ -20,13 +20,12 @@ from datetime import timezone
 from os import getenv
 
 def registration(data):
+    data['is_administrator'] = False
+    data['is_moderator'] = False
     admin_key = data.get('admin_key')
     if admin_key == getenv('JWT_SECRET_KEY'):
         data['is_administrator'] = True
         data['is_moderator'] = True
-    else:
-        data['is_administrator'] = False
-        data['is_moderator'] = False
     return create_item([data])
 
 def login(data):
