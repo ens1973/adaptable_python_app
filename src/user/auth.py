@@ -47,7 +47,7 @@ class UserLogin(Resource):
 
 @api.route('/logout')
 class UserLogout(Resource):
-    @mod_required()
+    @jwt_required()
     def delete(self):
         return logout()
 
