@@ -68,7 +68,7 @@ def logout():
         block.save()
     except Exception as e:
         return {'msg': 'Something went wrong deleting token'}, 500
-    return {'Logout': True}, 200
+    return {'logout': True}, 200
 
     # try:
     #     resp = jsonify({'logout': True})
